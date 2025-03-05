@@ -62,7 +62,7 @@
     },
     "vmSize": {
       "type": "string",
-      "defaultValue": "Standard_F4as_v6",
+      "defaultValue": "Standard_F4s",
       "metadata": {
         "description": "Size of the virtual machine"
       }
