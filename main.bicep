@@ -25,7 +25,7 @@ param securityType string = 'TrustedLaunch'
 param location string = resourceGroup().location
 
 @description('Size of the virtual machine')
-param vmSize string = 'Standard_D2s_v3'
+param vmSize string = 'Standard_F4as_v6'
 
 @description('The Windows version for the VM. This will pick a fully patched image of this given Windows version.')
 @allowed([
