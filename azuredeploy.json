@@ -31,7 +31,6 @@
     },
     "adminPassword": {
       "type": "string",
-	  "defaultValue":"[format('{uniqueString(resourceGroup().id))]",
       "metadata": {
         "description": "The password for the administrator account of the new VM"
       }
