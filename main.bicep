@@ -1,24 +1,27 @@
 param random string = newGuid()
 
-var dnsrandomtemp = 'dns${uniqueString(random)}'
+var dnsrandomtemp = 'dns${uniqueString(newGuid())}'
 output dnsrandom string = replace(dnsrandom, '-', '') 
   
 @description('Unique public DNS prefix for the deployment. The fqdn will look something like \'<dnsname>.westus.cloudapp.azure.com\'. Up to 62 chars, digits or dashes, lowercase, should start with a letter: must conform to \'^[a-z][a-z0-9-]{1,61}[a-z0-9]$\'.')
 param dnsLabelPrefix string = dnsrandom
 
 var vmnametemp = 'vm${uniqueString(newGuid())}'
-output vmrandom string = replace(dnsrandom, '-', '') 
+output vmrandom string = replace(vmnametemp, '-', '') 
   
 
 @description('The name of the VM')
-param vmName string = 'v
+param vmName string = vmrandom
 
 @description('The name of the administrator of the new VM. Exclusion list: \'admin\',\'administrator\'')
 param adminUsername string = 'azureUser'
 
 @description('The password for the administrator account of the new VM')
-@secure()
-param adminPassword string
+
+var passtemp = 'pw${uniqueString(newGuid())}'
+output passw string = replace(passtemp, '-', '') 
+  
+param adminPassword string = passw
 
 @description('Public port number for RDP')
 param rdpPort int = 50001
@@ -34,35 +37,13 @@ param securityType string = 'TrustedLaunch'
 param location string = resourceGroup().location
 
 @description('Size of the virtual machine')
-param vmSize string = 'Standard_D2s_v3'
+param vmSize string = 'Standard_F4as_v6'
 
 @description('The Windows version for the VM. This will pick a fully patched image of this given Windows version.')
 @allowed([
-  '2016-datacenter-gensecond'
-  '2016-datacenter-server-core-g2'
-  '2016-datacenter-server-core-smalldisk-g2'
-  '2016-datacenter-smalldisk-g2'
-  '2016-datacenter-with-containers-g2'
-  '2016-datacenter-zhcn-g2'
-  '2019-datacenter-core-g2'
-  '2019-datacenter-core-smalldisk-g2'
-  '2019-datacenter-core-with-containers-g2'
-  '2019-datacenter-core-with-containers-smalldisk-g2'
-  '2019-datacenter-gensecond'
-  '2019-datacenter-smalldisk-g2'
-  '2019-datacenter-with-containers-g2'
-  '2019-datacenter-with-containers-smalldisk-g2'
-  '2019-datacenter-zhcn-g2'
-  '2022-datacenter-azure-edition'
-  '2022-datacenter-azure-edition-core'
-  '2022-datacenter-azure-edition-core-smalldisk'
-  '2022-datacenter-azure-edition-smalldisk'
-  '2022-datacenter-core-g2'
-  '2022-datacenter-core-smalldisk-g2'
-  '2022-datacenter-g2'
   '2022-datacenter-smalldisk-g2'
 ])
-param OSVersion string = '2022-datacenter-azure-edition'
+param OSVersion string = '2022-datacenter-smalldisk-g2'
 
 var extensionName = 'GuestAttestation'
 var extensionPublisher = 'Microsoft.Azure.Security.WindowsAttestation'
@@ -76,7 +57,11 @@ var securityProfileJson = {
   }
   securityType: securityType
 }
-var storageAccountName = '${uniqueString(resourceGroup().id)}sardpvm'
+var stortemp = 'vm${uniqueString(newGuid())}'
+output storagename string = replace(stortemp, '-', '') 
+  
+
+var storageAccountName = storagename
 var vNetName = 'rdpVNET'
 var subnetName = 'Subnet'
 var vnetAddressRange = '10.0.0.0/16'
@@ -279,7 +264,7 @@ resource guestAttestation 'Microsoft.Compute/virtualMachines/extensions@2023-07-
     type: extensionName
     typeHandlerVersion: extensionVersion
     autoUpgradeMinorVersion: true
-    enableAutomaticUpgrade: true
+    enableAutomaticUpgrade: false
     settings: {
       AttestationConfig: {
         MaaSettings: {
