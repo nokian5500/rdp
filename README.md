@@ -1,1 +1,3 @@
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fnokian5500%2Frdp%2Fazuredeploy.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https://raw.githubusercontent.com/nokian5500/rdp/refs/heads/main/azuredeploy.json" target="_blank">DEPLOY<img border="0" alt="W3Schools" src="logo_w3s.gif" width="100" height="100">
+</a>
+
