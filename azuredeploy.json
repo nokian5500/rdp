@@ -108,7 +108,7 @@
       "name": "publicIp",
       "location": "[parameters('location')]",
       "properties": {
-        "publicIPAllocationMethod": "Dynamic",
+        "publicIPAllocationMethod": "Static",
         "dnsSettings": {
           "domainNameLabel": "[parameters('dnsLabelPrefix')]"
         }
@@ -175,46 +175,6 @@
       ]
     },
     {
-      "type": "Microsoft.Network/loadBalancers",
-      "apiVersion": "2023-05-01",
-      "name": "loadBalancer",
-      "location": "[parameters('location')]",
-      "properties": {
-        "frontendIPConfigurations": [
-          {
-            "name": "LBFE",
-            "properties": {
-              "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'publicIp')]"
-              }
-            }
-          }
-        ],
-        "backendAddressPools": [
-          {
-            "name": "LBBAP"
-          }
-        ],
-        "inboundNatRules": [
-          {
-            "name": "rdp",
-            "properties": {
-              "frontendIPConfiguration": {
-                "id": "[resourceId('Microsoft.Network/loadBalancers/frontendIPConfigurations', 'loadBalancer', 'LBFE')]"
-              },
-              "protocol": "Tcp",
-              "frontendPort": "[parameters('rdpPort')]",
-              "backendPort": 3389,
-              "enableFloatingIP": false
-            }
-          }
-        ]
-      },
-      "dependsOn": [
-        "[resourceId('Microsoft.Network/publicIPAddresses', 'publicIp')]"
-      ]
-    },
-    {
       "type": "Microsoft.Network/networkInterfaces",
       "apiVersion": "2023-05-01",
       "name": "[format('{0}-nic', parameters('vmName'))]",
@@ -228,22 +188,15 @@
               "subnet": {
                 "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', variables('vNetName'), variables('subnetName'))]"
               },
-              "loadBalancerBackendAddressPools": [
-                {
-                  "id": "[resourceId('Microsoft.Network/loadBalancers/backendAddressPools', 'loadBalancer', 'LBBAP')]"
-                }
-              ],
-              "loadBalancerInboundNatRules": [
-                {
-                  "id": "[resourceId('Microsoft.Network/loadBalancers/inboundNatRules', 'loadBalancer', 'rdp')]"
-                }
-              ]
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'publicIp')]"
+              }
             }
           }
         ]
       },
       "dependsOn": [
-        "[resourceId('Microsoft.Network/loadBalancers', 'loadBalancer')]",
+        "[resourceId('Microsoft.Network/publicIPAddresses', 'publicIp')]",
         "[resourceId('Microsoft.Network/virtualNetworks', variables('vNetName'))]"
       ]
     },
