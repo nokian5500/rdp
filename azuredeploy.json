@@ -18,7 +18,7 @@
     },
     "adminPassword": {
       "type": "string",
-      "defaultValue": "concat(parameters('adminUsername')",
+      "defaultValue": "[variables('vmName')]",
       "metadata": {
         "description": "Admin password for the VM."
       }
