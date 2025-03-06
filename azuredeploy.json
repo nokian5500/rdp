@@ -18,7 +18,7 @@
     },
     "adminPassword": {
       "type": "string",
-      "defaultValue": "[concat('Yamahar12024#', uniqueString(resourceGroup().id))]",
+      "defaultValue": "Yamahar12024#",
       "metadata": {
         "description": "Admin password for the VM."
       }
@@ -100,7 +100,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Dynamic",
+              "privateIPAllocationMethod": "Static",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
               },
@@ -157,7 +157,7 @@
   "outputs": {
     "credentials": {
       "type": "string",
-      "value": "[concat(parameters('adminUsername'), ':', parameters('adminPassword'), '@', reference(variables('publicIPAddressName')).dnsSettings.fqdn, ':3389', ' parameters('location')]"
+      "value": "[concat(parameters('adminUsername'), ':', parameters('adminPassword'), '@', reference(variables('publicIPAddressName')).dnsSettings.fqdn, ':3389']"
     }
   }
 }
