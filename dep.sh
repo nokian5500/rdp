@@ -30,7 +30,7 @@ foreach ($location in $locations) {
 
         # Выводим учетные данные
         $credentials = $deployment.Outputs.credentials.Value
-        Write-Host "Учетные данные для $location: $credentials"
+        Write-Host "Учетные данные для $location $credentials"
     } catch {
         Write-Host "Ошибка при развертывании в локации $location: $_"
     }
