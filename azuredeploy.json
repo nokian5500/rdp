@@ -17,8 +17,7 @@
       }
     },
     "adminPassword": {
-      "type": "string",
-      "defaultValue": "Yamahar12024#",
+      "type": "securestring",
       "metadata": {
         "description": "Admin password for the VM."
       }
@@ -55,7 +54,7 @@
     },
     {
       "type": "Microsoft.Network/publicIPAddresses",
-      "apiVersion": "2021-02-01",
+      "apiVersion": "2021-05-01",
       "name": "[variables('publicIPAddressName')]",
       "location": "[parameters('location')]",
       "properties": {
@@ -67,7 +66,7 @@
     },
     {
       "type": "Microsoft.Network/virtualNetworks",
-      "apiVersion": "2021-02-01",
+      "apiVersion": "2021-05-01",
       "name": "[variables('virtualNetworkName')]",
       "location": "[parameters('location')]",
       "properties": {
@@ -88,7 +87,7 @@
     },
     {
       "type": "Microsoft.Network/networkInterfaces",
-      "apiVersion": "2021-02-01",
+      "apiVersion": "2021-05-01",
       "name": "[variables('networkInterfaceName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
@@ -100,7 +99,7 @@
           {
             "name": "ipconfig1",
             "properties": {
-              "privateIPAllocationMethod": "Static",
+              "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
               },
@@ -114,7 +113,7 @@
     },
     {
       "type": "Microsoft.Compute/virtualMachines",
-      "apiVersion": "2021-04-01",
+      "apiVersion": "2021-07-01",
       "name": "[variables('vmName')]",
       "location": "[parameters('location')]",
       "dependsOn": [
@@ -157,7 +156,7 @@
   "outputs": {
     "credentials": {
       "type": "string",
-      "value": "[concat(parameters('adminUsername'), ':', parameters('adminPassword'), '@', reference(variables('publicIPAddressName')).dnsSettings.fqdn, ':3389']"
+      "value": "[concat(parameters('adminUsername'), ':', parameters('adminPassword'), '@', reference(variables('publicIPAddressName')).dnsSettings.fqdn, ':3389')]"
     }
   }
 }
