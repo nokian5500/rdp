@@ -19,7 +19,7 @@ foreach ($location in $locations) {
     # Развертываем шаблон
     $deployment = New-AzResourceGroupDeployment `
         -ResourceGroupName $resourceGroupName `
-        -TemplateUri "deploy.json" `
+        -TemplateUri "https://raw.githubusercontent.com/nokian5500/rdp/refs/heads/main/azuredeploy.json" `
         -Location $location
 
     # Выводим учетные данные
