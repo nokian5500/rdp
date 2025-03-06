@@ -17,8 +17,8 @@
       }
     },
     "adminPassword": {
-      "type": "securestring",
-      "defaultValue": "[concat('P@ssw0rd', uniqueString(resourceGroup().id))]",
+      "type": "string",
+      "defaultValue": "concat(parameters('adminUsername')",
       "metadata": {
         "description": "Admin password for the VM."
       }
